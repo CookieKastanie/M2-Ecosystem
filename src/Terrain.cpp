@@ -2,23 +2,15 @@
 #include <Ecosystem/Random.hpp>
 #include <iostream>
 
-Terrain::Cell::Cell(): animal{ nullptr }, vegetal{ nullptr } {
-	
-}
-
-Terrain::Terrain(unsigned int size): size{ size } {
+Terrain::Terrain(unsigned int size): size{size}, neighbords{4}, state{0} {
 	cells.resize((std::size_t)size * size);
 
 	for(int y = 0; y < size; ++y) {
 		for(int x = 0; x < size; ++x) {
 			Cell &cell = cells[(std::size_t)y * size + x];
 
-			float rng1 = Random::generate();
-
-			if(rng1 > 0.6) {
-				float rng2 = Random::generate();
-
-				if(rng2 > .5) {
+			if(Random::greaterThan(0.6)) {
+				if(Random::greaterThan(.5)) {
 					cell.animal = new Animal{};
 				} else {
 					cell.vegetal = new Vegetal{};
@@ -28,24 +20,57 @@ Terrain::Terrain(unsigned int size): size{ size } {
 	}
 }
 
+Cell &Terrain::at(int x, int y) {
+	return cells[(std::size_t)y * size + x];
+}
+
+void Terrain::update() {
+	for(int y = 0; y < size; ++y) {
+		for(int x = 0; x < size; ++x) {
+			Cell &cell = at(x, y);
+			
+			neighbords.clear();
+			if(x > 0)        neighbords.push_back(&at(x - 1, y));
+			if(x < size - 1) neighbords.push_back(&at(x + 1, y));
+			if(y > 0)        neighbords.push_back(&at(x, y - 1));
+			if(y < size - 1) neighbords.push_back(&at(x, y + 1));
+
+			if(cell.animal != nullptr && cell.animal->getState() != state) {
+				if(cell.animal->isDead()) {
+					delete cell.animal;
+					cell.animal = nullptr;
+				} else {
+					cell.animal->setState(state);
+					cell.animal->update(&cell, neighbords);
+				}
+			}
+
+			if(cell.vegetal != nullptr && cell.vegetal->getState() != state) {
+				if(cell.vegetal->isDead()) {
+					delete cell.vegetal;
+					cell.vegetal = nullptr;
+				} else {
+					cell.vegetal->setState(state);
+					cell.vegetal->update(&cell, neighbords);
+				}
+			}
+		}
+	}
+
+	state = state == 0 ? 1 : 0;
+}
+
 void Terrain::print() {
-	std::cout << "---------------------------------------" << std::endl;
+	std::cout << "-----------" << std::endl;
 
 	for(int y = 0; y < size; ++y) {
 		for(int x = 0; x < size; ++x) {
-			Cell &cell = cells[(std::size_t)y * size + x];
-			if(cell.animal != nullptr && cell.vegetal != nullptr) {
-				std::cout << " X ";
-			} else if(cell.animal != nullptr) {
-				std::cout << " A ";
-			} else if(cell.vegetal != nullptr) {
-				std::cout << " V ";
-			} else {
-				std::cout << "   ";
-			}
+			Cell &cell = at(x, y);
+			std::cout << cell;
 		}
 
 		std::cout << std::endl;
 	}
-}
 
+	std::cout << std::flush;
+}

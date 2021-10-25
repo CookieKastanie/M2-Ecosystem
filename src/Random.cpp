@@ -9,3 +9,11 @@ void Random::init() {
 float Random::generate() {
 	return (float)std::rand() / (float)RAND_MAX;
 }
+
+bool Random::greaterThan(float value) {
+	return value < generate();
+}
+
+int Random::rangeInt(int min, int max) {
+	return rand() % (max - min + 1) + min;
+}

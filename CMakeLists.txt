@@ -14,5 +14,5 @@ file(GLOB_RECURSE SRC CONFIGURE_DEPENDS "${SRC_DIR}/*.cpp")
 add_executable(${PROJECT_NAME})
 #set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 target_sources(${PROJECT_NAME} PRIVATE src/main.cpp
-src/Terrain.cpp "include/Ecosystem/Vegetal.hpp" "src/Animal.cpp" "src/Vegetal.cpp" "src/Random.cpp")
+src/Terrain.cpp "include/Ecosystem/Vegetal.hpp" "src/Animal.cpp" "src/Vegetal.cpp" "src/Random.cpp" "include/Ecosystem/Entity.hpp" "src/Entity.cpp" "include/Ecosystem/Cell.hpp" "src/Cell.cpp")
 target_include_directories(${PROJECT_NAME} PRIVATE ${INC_DIR})

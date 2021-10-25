@@ -5,22 +5,18 @@
 #include <Ecosystem/Vegetal.hpp>
 
 class Terrain {
-public:
-	struct Cell {
-		Animal *animal;
-		Vegetal *vegetal;
-
-		Cell();
-	};
-
-
-
 private:
 	std::size_t size;
 	std::vector<Cell> cells;
+	std::vector<Cell*> neighbords;
+
+	char state;
+
+	Cell &Terrain::at(int x, int y);
 
 public:
 	Terrain(unsigned int size);
 
+	void update();
 	void print();
 };

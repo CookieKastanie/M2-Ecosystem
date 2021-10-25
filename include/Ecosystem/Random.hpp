@@ -4,4 +4,6 @@ class Random {
 public:
 	static void init();
 	static float generate();
+	static bool greaterThan(float value);
+	static int rangeInt(int min, int max);
 };
