@@ -8,7 +8,7 @@
 int main() {
 	Random::init();
 
-	Terrain terrain{ 10 };
+	Terrain terrain{ 20 };
 
 	for(;;) {
 		terrain.update();
