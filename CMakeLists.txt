@@ -16,3 +16,8 @@ add_executable(${PROJECT_NAME})
 target_sources(${PROJECT_NAME} PRIVATE src/main.cpp
 src/Terrain.cpp "include/Ecosystem/Vegetal.hpp" "src/Animal.cpp" "src/Vegetal.cpp" "src/Random.cpp" "include/Ecosystem/Entity.hpp" "src/Entity.cpp" "include/Ecosystem/Cell.hpp" "src/Cell.cpp")
 target_include_directories(${PROJECT_NAME} PRIVATE ${INC_DIR})
+
+
+#lib externe
+add_subdirectory(Akila)
+target_link_libraries(${PROJECT_NAME} PUBLIC Akila)
