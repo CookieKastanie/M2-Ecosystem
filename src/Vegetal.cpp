@@ -16,7 +16,7 @@ bool Vegetal::trySpraySeed(std::vector<Cell *> const &neighbords) {
 	if(spraySeedRT > 0) return false;
 
 	for(Cell *cell : neighbords) {
-		if(cell->vegetal == nullptr) {
+		if(!cell->haveVegetal()) {
 			cell->vegetal = new Vegetal{};
 			spraySeedRT = Random::rangeInt(10, 20);
 			return true;

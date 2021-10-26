@@ -1,5 +1,6 @@
 #include <Ecosystem/Animal.hpp>
 #include "Ecosystem/Random.hpp"
+#include "Ecosystem/Vegetal.hpp"
 
 Animal::Animal(): specie{ Species::MICE }, carnivorous{ false } {
 	reproductionRT = Random::rangeInt(5, 20);
@@ -21,8 +22,8 @@ void Animal::update(Cell *currentCell, std::vector<Cell *> const &neighbords) {
 bool Animal::randomMove(Cell *currentCell, std::vector<Cell *> const &neighbords) {
 	int index = Random::rangeInt(0, neighbords.size() - 1);
 	Cell *cell = neighbords[index];
-	if(cell->animal == nullptr) {
-		currentCell->animal = nullptr;
+	if(!cell->haveAnimal()) {
+		currentCell->removeAnimal();
 		cell->animal = this;
 
 		return true;
@@ -42,7 +43,7 @@ bool Animal::tryReproduce(std::vector<Cell *> const &neighbords) {
 	for(Cell *cell : neighbords) {
 		if(mate == nullptr && cell->animal != nullptr) {
 			if(cell->animal->canReproduce()) mate = cell->animal;
-		} else if(empty == nullptr && cell->animal == nullptr) {
+		} else if(empty == nullptr && !cell->haveAnimal()) {
 			empty = cell;
 		}
 	}
@@ -63,17 +64,15 @@ bool Animal::tryReproduce(std::vector<Cell *> const &neighbords) {
 }
 
 bool Animal::tryEat(Cell *currentCell) {
-	if(starvingRT < 20 && currentCell->vegetal != nullptr) {
+	if(starvingRT < 20 && currentCell->haveVegetal()) {
 		starvingRT += 10;
-		delete currentCell->vegetal;
-		currentCell->vegetal = nullptr;
+		currentCell->vegetal->die();
 
 		return true;
 	}
 
 	return false;
 }
-
 
 std::ostream &operator<<(std::ostream &os, Animal const &a) {
 	switch(a.specie) {

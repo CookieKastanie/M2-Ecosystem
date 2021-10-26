@@ -7,8 +7,38 @@ Cell::Cell(): animal{nullptr}, vegetal{nullptr} {
 }
 
 Cell::~Cell() {
-	if(animal != nullptr) delete animal;
-	if(vegetal != nullptr) delete vegetal;
+	deleteAnimal();
+	deleteVegetal();
+}
+
+bool Cell::haveAnimal() {
+	return animal != nullptr;
+}
+
+bool Cell::haveVegetal() {
+	return vegetal != nullptr;
+}
+
+void Cell::removeAnimal() {
+	animal = nullptr;
+}
+
+void Cell::removeVegetal() {
+	animal = nullptr;
+}
+
+void Cell::deleteAnimal() {
+	if(animal != nullptr) {
+		delete animal;
+		animal = nullptr;
+	}
+}
+
+void Cell::deleteVegetal() {
+	if(vegetal != nullptr) {
+		delete vegetal;
+		vegetal = nullptr;
+	}
 }
 
 std::ostream &operator<<(std::ostream &os, Cell const &cell) {

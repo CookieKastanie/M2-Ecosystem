@@ -35,20 +35,18 @@ void Terrain::update() {
 			if(y > 0)        neighbords.push_back(&at(x, y - 1));
 			if(y < size - 1) neighbords.push_back(&at(x, y + 1));
 
-			if(cell.animal != nullptr && cell.animal->getState() != state) {
+			if(cell.haveAnimal() && cell.animal->getState() != state) {
 				if(cell.animal->isDead()) {
-					delete cell.animal;
-					cell.animal = nullptr;
+					cell.deleteAnimal();
 				} else {
 					cell.animal->setState(state);
 					cell.animal->update(&cell, neighbords);
 				}
 			}
 
-			if(cell.vegetal != nullptr && cell.vegetal->getState() != state) {
+			if(cell.haveVegetal() && cell.vegetal->getState() != state) {
 				if(cell.vegetal->isDead()) {
-					delete cell.vegetal;
-					cell.vegetal = nullptr;
+					cell.deleteVegetal();
 				} else {
 					cell.vegetal->setState(state);
 					cell.vegetal->update(&cell, neighbords);
