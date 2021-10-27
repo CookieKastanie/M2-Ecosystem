@@ -72,3 +72,11 @@ void Terrain::print() {
 
 	std::cout << std::flush;
 }
+
+void Terrain::foreach(std::function<void(Cell *, int, int)> cb) {
+	for(int y = 0; y < size; ++y) {
+		for(int x = 0; x < size; ++x) {
+			cb(&at(x, y), x, y);
+		}
+	}
+}

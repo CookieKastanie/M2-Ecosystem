@@ -4,6 +4,8 @@
 #include <Ecosystem/Animal.hpp>
 #include <Ecosystem/Vegetal.hpp>
 
+#include <functional>	
+
 class Terrain {
 private:
 	std::size_t size;
@@ -19,4 +21,6 @@ public:
 
 	void update();
 	void print();
+
+	void foreach(std::function<void(Cell *, int, int)> cb);
 };
