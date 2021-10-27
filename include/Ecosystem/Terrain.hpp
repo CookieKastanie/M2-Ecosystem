@@ -19,8 +19,12 @@ private:
 public:
 	Terrain(unsigned int size);
 
+	void reset();
+
 	void update();
 	void print();
+
+	int getSize();
 
 	void foreach(std::function<void(Cell *, int, int)> cb);
 };

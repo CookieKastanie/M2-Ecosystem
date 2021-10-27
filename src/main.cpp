@@ -44,8 +44,17 @@ public:
 
 		camera = std::make_shared<MouseCamera>(Akila::Core::display->getMouse());
 		Akila::Core::renderer->setSharedCamera(camera);
-		Akila::Core::renderer->setClearColor(0.5, 0.5, 0.8);
+		Akila::Core::renderer->setClearColor(0.5, 0.6, 1.0);
 		Akila::Core::renderer->disable(Akila::Renderer::Capability::CULL_FACE);
+
+		float s = (float)terrain.getSize() / 2. - 0.5;
+		camera->setCenter({s, 0, s});
+		
+		Akila::Core::display->getKeybord()->onKeyPress([this](Akila::Keyboard::Key key) {
+			if(key == Akila::Keyboard::Key::SPACE) {
+				terrain.reset();
+			}
+		});
 	}
 
 	void update() override {
@@ -90,9 +99,10 @@ int main(int argc, char *argv[]) {
 	Random::init();
 
 	return Akila::Core::run(argc, argv, [](void) {
-		Akila::Time::fixedDelta = 0.2;
+		Akila::Time::fixedDelta = 0.3;
 		Akila::FileSystem::setResourceFolder("resources");
 
+		Akila::Core::display->setTitle("Ecosystem woula nardine");
 		Akila::Core::layerManager->add(new TestLayer{});
 	});
 }

@@ -18,6 +18,13 @@ src/Terrain.cpp "include/Ecosystem/Vegetal.hpp" "src/Animal.cpp" "src/Vegetal.cp
 target_include_directories(${PROJECT_NAME} PRIVATE ${INC_DIR})
 
 
+if(WIN32)
+    set_target_properties(${PROJECT_NAME}
+    PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:CONSOLE"
+               LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
+endif()
+
+
 #lib externe
 add_subdirectory(Akila)
 target_link_libraries(${PROJECT_NAME} PUBLIC Akila)

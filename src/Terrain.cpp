@@ -3,11 +3,19 @@
 #include <iostream>
 
 Terrain::Terrain(unsigned int size): size{size}, neighbords{4}, state{0} {
+	reset();
+}
+
+void Terrain::reset() {
+	state = 0;
+
 	cells.resize((std::size_t)size * size);
 
 	for(int y = 0; y < size; ++y) {
 		for(int x = 0; x < size; ++x) {
 			Cell &cell = cells[(std::size_t)y * size + x];
+			cell.deleteAnimal();
+			cell.deleteVegetal();
 
 			if(Random::greaterThan(0.6)) {
 				if(Random::greaterThan(.5)) {
@@ -71,6 +79,10 @@ void Terrain::print() {
 	}
 
 	std::cout << std::flush;
+}
+
+int Terrain::getSize() {
+	return size;
 }
 
 void Terrain::foreach(std::function<void(Cell *, int, int)> cb) {
