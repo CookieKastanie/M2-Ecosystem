@@ -1,4 +1,4 @@
-#include "Ecosystem/MouseCamera.hpp"
+#include "Ecosystem/app/MouseCamera.hpp"
 
 MouseCamera::MouseCamera(Akila::Mouse *mouse):
 	mouse{mouse},

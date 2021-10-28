@@ -1,5 +1,5 @@
-#include <Ecosystem/Vegetal.hpp>
-#include "Ecosystem/Random.hpp"
+#include <Ecosystem/entities/Vegetal.hpp>
+#include "Ecosystem/utils/Random.hpp"
 
 Vegetal::Vegetal() {
 	spraySeedRT = Random::rangeInt(5, 15);

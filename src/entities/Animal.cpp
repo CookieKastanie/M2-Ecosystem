@@ -1,6 +1,6 @@
-#include <Ecosystem/Animal.hpp>
-#include "Ecosystem/Random.hpp"
-#include "Ecosystem/Vegetal.hpp"
+#include <Ecosystem/entities/Animal.hpp>
+#include "Ecosystem/utils/Random.hpp"
+#include "Ecosystem/entities/Vegetal.hpp"
 
 Animal::Animal(): specie{ Species::MICE }, carnivorous{ false } {
 	reproductionRT = Random::rangeInt(5, 20);

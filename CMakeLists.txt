@@ -14,7 +14,7 @@ file(GLOB_RECURSE SRC CONFIGURE_DEPENDS "${SRC_DIR}/*.cpp")
 add_executable(${PROJECT_NAME})
 #set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 target_sources(${PROJECT_NAME} PRIVATE src/main.cpp
-src/Terrain.cpp "include/Ecosystem/Vegetal.hpp" "src/Animal.cpp" "src/Vegetal.cpp" "src/Random.cpp" "include/Ecosystem/Entity.hpp" "src/Entity.cpp" "include/Ecosystem/Cell.hpp" "src/Cell.cpp" "include/Ecosystem/MouseCamera.hpp" "src/MouseCamera.cpp")
+"src/utils/Terrain.cpp" "include/Ecosystem/entities/Vegetal.hpp" "src/entities/Animal.cpp" "src/entities/Vegetal.cpp" "src/utils/Random.cpp" "include/Ecosystem/entities/Entity.hpp" "src/entities/Entity.cpp" "include/Ecosystem/simulation/Cell.hpp" "src/utils/Cell.cpp" "include/Ecosystem/app/MouseCamera.hpp" "src/app/MouseCamera.cpp" "include/Ecosystem/app/AppLayer.hpp" "src/app/AppLayer.cpp")
 target_include_directories(${PROJECT_NAME} PRIVATE ${INC_DIR})
 
 

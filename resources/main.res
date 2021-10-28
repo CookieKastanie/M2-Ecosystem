@@ -1,6 +1,6 @@
 texture {
 	name: mice_colors
-	src: mice_colors.png
+	src: textures/mice_colors.png
 
 	format: RGB
 
@@ -10,7 +10,7 @@ texture {
 
 texture {
 	name: plant_colors
-	src: plant_colors.png
+	src: textures/plant_colors.png
 
 	format: RGB
 
@@ -22,7 +22,7 @@ texture {
 
 shader {
 	name: simple
-	src: simple.glsl
+	src: shaders/simple.glsl
 
 	uniform: albedo = i[0]
 }
@@ -45,15 +45,15 @@ material {
 
 mesh {
 	name: mice
-	src: mice.ob
+	src: meshs/mice.ob
 }
 
 mesh {
 	name: plant
-	src: plant.ob
+	src: meshs/plant.ob
 }
 
 mesh {
 	name: ground
-	src: ground.ob
+	src: meshs/ground.ob
 }

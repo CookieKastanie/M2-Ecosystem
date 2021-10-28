@@ -1,8 +1,8 @@
 #pragma once
 
 #include <vector>
-#include <Ecosystem/Animal.hpp>
-#include <Ecosystem/Vegetal.hpp>
+#include <Ecosystem/entities/Animal.hpp>
+#include <Ecosystem/entities/Vegetal.hpp>
 
 #include <functional>	
 

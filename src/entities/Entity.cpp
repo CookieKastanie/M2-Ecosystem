@@ -1,4 +1,4 @@
-#include "Ecosystem/Entity.hpp"
+#include "Ecosystem/entities/Entity.hpp"
 
 Entity::Entity(): updateState{0}, dead{false} {
 

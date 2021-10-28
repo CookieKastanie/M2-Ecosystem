@@ -1,8 +1,8 @@
 #pragma once
 
 #include <iostream>
-#include "Ecosystem/Entity.hpp"
-#include "Ecosystem/Cell.hpp"
+#include "Ecosystem/entities/Entity.hpp"
+#include "Ecosystem/simulation/Cell.hpp"
 #include <vector>
 
 class Vegetal: public Entity {

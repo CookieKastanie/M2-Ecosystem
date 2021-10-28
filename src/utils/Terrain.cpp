@@ -1,5 +1,5 @@
-#include <Ecosystem/Terrain.hpp>
-#include <Ecosystem/Random.hpp>
+#include <Ecosystem/simulation/Terrain.hpp>
+#include <Ecosystem/utils/Random.hpp>
 #include <iostream>
 
 Terrain::Terrain(unsigned int size): size{size}, neighbords{4}, state{0} {

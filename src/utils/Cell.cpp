@@ -1,6 +1,6 @@
-#include "Ecosystem/Cell.hpp"
-#include "Ecosystem/Animal.hpp"
-#include "Ecosystem/Vegetal.hpp"
+#include "Ecosystem/simulation/Cell.hpp"
+#include "Ecosystem/entities/Animal.hpp"
+#include "Ecosystem/entities/Vegetal.hpp"
 
 Cell::Cell(): animal{nullptr}, vegetal{nullptr} {
 
