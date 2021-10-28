@@ -1,8 +1,24 @@
 #include <Ecosystem/simulation/Terrain.hpp>
 #include <Ecosystem/utils/Random.hpp>
 #include <iostream>
+#include "Ecosystem/entities/Bunny.hpp"
 
 Terrain::Terrain(unsigned int size): size{size}, neighbords{4}, state{0} {
+	animalsRules.initialEnergyRange[0] = 10;
+	animalsRules.initialEnergyRange[1] = 30;
+
+	animalsRules.initialTTLRange[0] = 100;
+	animalsRules.initialTTLRange[1] = 200;
+
+	animalsRules.marginReproductionEnergy = 15;
+	animalsRules.maxEnergy = 50;
+	animalsRules.movingEnergyCost = 0;
+	animalsRules.reproduicngEnergyCost = 25;
+	animalsRules.eatingEnergyGain = 20;
+
+	animalsRules.reproductionCDRange[0] = 20;
+	animalsRules.reproductionCDRange[1] = 40;
+
 	reset();
 }
 
@@ -19,7 +35,11 @@ void Terrain::reset() {
 
 			if(Random::greaterThan(0.6)) {
 				if(Random::greaterThan(.5)) {
-					cell.animal = new Animal{};
+					if(Random::greaterThan(.5)) {
+						cell.animal = new Bunny{&animalsRules};
+					} else {
+						//cell.animal = new Fox{&animalsRules};
+					}
 				} else {
 					cell.vegetal = new Vegetal{};
 				}

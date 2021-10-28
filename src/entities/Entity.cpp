@@ -23,3 +23,19 @@ bool Entity::isDead() {
 void Entity::die() {
 	dead = true;
 }
+
+Cell *Entity::searchEmptyAnimalCell(std::vector<Cell *> const &neighbords) {
+	for(Cell *cell : neighbords) {
+		if(!cell->haveAnimal()) return cell;
+	}
+
+	return nullptr;
+}
+
+Cell *Entity::searchEmptyVegetalCell(std::vector<Cell *> const &neighbords) {
+	for(Cell *cell : neighbords) {
+		if(!cell->haveVegetal()) return cell;
+	}
+
+	return nullptr;
+}

@@ -17,3 +17,7 @@ bool Random::greaterThan(float value) {
 int Random::rangeInt(int min, int max) {
 	return rand() % (max - min + 1) + min;
 }
+
+int Random::rangeInt(int range[2]) {
+	return rangeInt(range[0], range[1]);
+}

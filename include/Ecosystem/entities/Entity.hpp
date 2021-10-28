@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Ecosystem/simulation/Cell.hpp"
+#include <vector>
+
 class Entity {
 private:
 	char updateState;
@@ -14,4 +17,8 @@ public:
 
 	bool isDead();
 	void die();	
+
+protected:
+	Cell *searchEmptyAnimalCell(std::vector<Cell *> const &neighbords);
+	Cell *searchEmptyVegetalCell(std::vector<Cell *> const &neighbords);
 };

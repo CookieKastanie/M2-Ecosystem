@@ -14,6 +14,8 @@ private:
 
 	char state;
 
+	Animal::Rules animalsRules;
+
 	Cell &Terrain::at(int x, int y);
 
 public:

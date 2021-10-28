@@ -8,26 +8,50 @@
 class Animal: public Entity {
 public:
 	enum class Species {
-		MICE,
+		BUNNY,
 		FOX,
 	};
 
-private:
-	Species specie;
-	bool carnivorous;
+	struct Rules {
+		int initialTTLRange[2];
+		int initialEnergyRange[2];
 
-	// Remaining Time
-	int reproductionRT;
-	int starvingRT;
+		int reproductionCDRange[2];
+
+		int movingEnergyCost;
+		int reproduicngEnergyCost;
+		int marginReproductionEnergy;
+
+		int eatingEnergyGain;
+		int maxEnergy;
+	};
+
+protected:
+	Species specie;
+	Rules *rules;
+
+	int ttl; // time to live
+	int energy;
+
+	int reproductionCD;
 
 public:
-	Animal();
+	Animal(Species specie, Rules *rules);
+	virtual ~Animal();
+
+	Species getSpecie();
 	void update(Cell *currentCell, std::vector<Cell*> const &neighbords);
-	bool canReproduce();
+
 	friend std::ostream &operator<<(std::ostream &os, Animal const &a);
 
-private:
+protected:
+	virtual void onUpdate(Cell *currentCell, std::vector<Cell *> const &neighbords) = 0;
+
+	bool move(Cell *currentCell, Cell *targetCell);
 	bool randomMove(Cell *currentCell, std::vector<Cell *> const &neighbords);
-	bool tryReproduce(std::vector<Cell *> const &neighbords);
-	bool tryEat(Cell *currentCell);
+
+	bool canReproduce();
+	bool canReproduceWith(Cell *cell);
+	Cell *searchMate(std::vector<Cell *> const &neighbords);
+	void reproducing();
 };

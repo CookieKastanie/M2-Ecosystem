@@ -2,7 +2,7 @@
 
 using namespace Akila;
 
-AppLayer::AppLayer(): terrain{20} {
+AppLayer::AppLayer(): terrain{30} {
 	Core::resourcePool->loadResourceFile("main.res", []() -> void {
 
 	});

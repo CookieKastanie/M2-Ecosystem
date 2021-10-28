@@ -18,6 +18,16 @@ texture {
 	magFilter: NEAREST
 }
 
+texture {
+	name: fox_colors
+	src: textures/fox_colors.png
+
+	format: RGB
+
+	minFilter: NEAREST
+	magFilter: NEAREST
+}
+
 ////////////////////////////////
 
 shader {
@@ -41,11 +51,23 @@ material {
 	texture: plant_colors = 0
 }
 
+material {
+	name: fox
+	shader: simple
+
+	texture: fox_colors = 0
+}
+
 ///////////////////////////////////////////
 
 mesh {
 	name: mice
 	src: meshs/mice.ob
+}
+
+mesh {
+	name: fox
+	src: meshs/fox.ob
 }
 
 mesh {

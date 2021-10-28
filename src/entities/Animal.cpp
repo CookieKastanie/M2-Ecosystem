@@ -2,82 +2,78 @@
 #include "Ecosystem/utils/Random.hpp"
 #include "Ecosystem/entities/Vegetal.hpp"
 
-Animal::Animal(): specie{ Species::MICE }, carnivorous{ false } {
-	reproductionRT = Random::rangeInt(5, 20);
-	starvingRT = Random::rangeInt(10, 30);
+Animal::Animal(Species specie, Rules *rules): specie{ specie }, rules{ rules } {
+	ttl = Random::rangeInt(rules->initialTTLRange);
+	energy = Random::rangeInt(rules->initialEnergyRange);
+	reproductionCD = Random::rangeInt(rules->reproductionCDRange);
+}
+
+Animal::~Animal() {
+
+}
+
+Animal::Species Animal::getSpecie() {
+	return specie;
 }
 
 void Animal::update(Cell *currentCell, std::vector<Cell *> const &neighbords) {
-	int done = true;
+	onUpdate(currentCell, neighbords);
 
-	done = tryEat(currentCell);
-	if(!done && canReproduce()) done = tryReproduce(neighbords);
-	if(!done) done = randomMove(currentCell, neighbords);
+	--ttl;
+	--reproductionCD;
+	if(energy <= 0 || ttl <= 0) die();
+}
 
-	--starvingRT;
-	--reproductionRT;
-	if(starvingRT <= 0) die();
+bool Animal::move(Cell *currentCell, Cell *targetCell) {
+	if(energy <= rules->movingEnergyCost) return false;
+
+	if(!targetCell->haveAnimal()) {
+		currentCell->removeAnimal();
+		targetCell->animal = this;
+
+		return true;
+	}
+
+	return false;
 }
 
 bool Animal::randomMove(Cell *currentCell, std::vector<Cell *> const &neighbords) {
 	int index = Random::rangeInt(0, neighbords.size() - 1);
-	Cell *cell = neighbords[index];
-	if(!cell->haveAnimal()) {
-		currentCell->removeAnimal();
-		cell->animal = this;
-
-		return true;
-	}
-
-	return false;
+	return move(currentCell, neighbords[index]);
 }
 
 bool Animal::canReproduce() {
-	return starvingRT > 15 && reproductionRT <= 0;
+	return (energy - rules->marginReproductionEnergy) >= rules->reproduicngEnergyCost
+		&& reproductionCD <= 0;
 }
 
-bool Animal::tryReproduce(std::vector<Cell *> const &neighbords) {
-	Animal *mate = nullptr;
-	Cell *empty = nullptr;
+bool Animal::canReproduceWith(Cell *cell) {
+	if(!cell->haveAnimal()) return false;
 
+	Animal *other = cell->animal;
+	if(specie != other->getSpecie()) return false;
+	if(!canReproduce() || !canReproduce()) return false;
+
+	return true;
+}
+
+Cell *Animal::searchMate(std::vector<Cell *> const &neighbords) {
 	for(Cell *cell : neighbords) {
-		if(mate == nullptr && cell->animal != nullptr) {
-			if(cell->animal->canReproduce()) mate = cell->animal;
-		} else if(empty == nullptr && !cell->haveAnimal()) {
-			empty = cell;
-		}
+		if(canReproduceWith(cell)) return cell;
 	}
 
-	if(mate != nullptr && empty != nullptr) {
-		empty->animal = new Animal{};
-
-		reproductionRT += Random::rangeInt(15, 30);
-		mate->reproductionRT += Random::rangeInt(15, 30);
-
-		starvingRT -= 10;
-		mate->starvingRT -= 10;
-
-		return true;
-	}
-
-	return false;
+	return nullptr;
 }
 
-bool Animal::tryEat(Cell *currentCell) {
-	if(starvingRT < 20 && currentCell->haveVegetal()) {
-		starvingRT += 10;
-		currentCell->vegetal->die();
-
-		return true;
-	}
-
-	return false;
+void Animal::reproducing() {
+	energy -= rules->reproduicngEnergyCost;
+	reproductionCD = Random::rangeInt(rules->reproductionCDRange);
 }
 
 std::ostream &operator<<(std::ostream &os, Animal const &a) {
 	switch(a.specie) {
-		case Animal::Species::MICE:
-			os << "M";
+		case Animal::Species::BUNNY:
+			os << "B";
 			break;
 
 		case Animal::Species::FOX:
