@@ -14,7 +14,7 @@ private:
 
 	char state;
 
-	Animal::Rules animalsRules;
+	Animal::Rules bunnyRules;
 
 	Cell &Terrain::at(int x, int y);
 
@@ -27,6 +27,8 @@ public:
 	void print();
 
 	int getSize();
+
+	Animal::Rules &getBunnyRules();
 
 	void foreach(std::function<void(Cell *, int, int)> cb);
 };

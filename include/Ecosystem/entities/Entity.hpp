@@ -15,6 +15,8 @@ public:
 	char getState();
 	void setState(char s);
 
+	virtual void update(Cell *currentCell, std::vector<Cell *> const &neighbords) = 0;
+
 	bool isDead();
 	void die();	
 

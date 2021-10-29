@@ -40,7 +40,7 @@ public:
 	virtual ~Animal();
 
 	Species getSpecie();
-	void update(Cell *currentCell, std::vector<Cell*> const &neighbords);
+	void update(Cell *currentCell, std::vector<Cell*> const &neighbords) override;
 
 	friend std::ostream &operator<<(std::ostream &os, Animal const &a);
 
