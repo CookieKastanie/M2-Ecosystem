@@ -21,6 +21,7 @@ void Animal::update(Cell *currentCell, std::vector<Cell *> const &neighbords) {
 
 	--ttl;
 	--reproductionCD;
+	--energy;
 	if(energy <= 0 || ttl <= 0) die();
 }
 
