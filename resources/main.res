@@ -1,6 +1,6 @@
 texture {
-	name: mice_colors
-	src: textures/mice_colors.png
+	name: bunny_colors
+	src: textures/bunny_colors.png
 
 	format: RGB
 
@@ -38,10 +38,10 @@ shader {
 }
 
 material {
-	name: mice
+	name: bunny
 	shader: simple
 
-	texture: mice_colors = 0
+	texture: bunny_colors = 0
 }
 
 material {
@@ -61,8 +61,8 @@ material {
 ///////////////////////////////////////////
 
 mesh {
-	name: mice
-	src: meshs/mice.ob
+	name: bunny
+	src: meshs/bunny.ob
 }
 
 mesh {

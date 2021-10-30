@@ -7,6 +7,13 @@
 #include <functional>	
 
 class Terrain {
+public:
+	struct CreationProbabilities {
+		float bunny;
+		float fox;
+		float plant;
+	};
+
 private:
 	std::size_t size;
 	std::vector<Cell> cells;
@@ -14,7 +21,11 @@ private:
 
 	char state;
 
+	CreationProbabilities probs;
+
 	Animal::Rules bunnyRules;
+	Animal::Rules foxRules;
+	Vegetal::Rules plantRules;
 
 	Cell &Terrain::at(int x, int y);
 
@@ -28,7 +39,15 @@ public:
 
 	int getSize();
 
+	void setDefaultCreationProbs();
+
+	void setDefaultBunnyRules();
+	void setDefaultFoxRules();
+	void setDefaultPlantRules();
+
 	Animal::Rules &getBunnyRules();
+	Animal::Rules &getFoxRules();
+	Vegetal::Rules &getPlantRules();
 
 	void foreach(std::function<void(Cell *, int, int)> cb);
 };

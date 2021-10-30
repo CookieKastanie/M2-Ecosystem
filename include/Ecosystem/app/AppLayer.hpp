@@ -12,6 +12,7 @@
 class AppLayer: public Akila::Layer {
 private:
 	Terrain terrain;
+	bool play;
 	std::shared_ptr<MouseCamera> camera;
 
 public:

@@ -6,14 +6,24 @@
 #include <vector>
 
 class Vegetal: public Entity {
+public:
+	struct Rules {
+		int initialTTLRange[2];
+		int spraySeedCDRange[2];
+	};
+
 private:
-	int spraySeedRT;
+	Rules *rules;
+
+	int ttl;
+	int spraySeedCD;
 
 public:
-	Vegetal();
+	Vegetal(Rules *rules);
 	void update(Cell *currentCell, std::vector<Cell *> const &neighbords);
 	friend std::ostream &operator<<(std::ostream &os, Vegetal const &v);
 
 private:
-	bool trySpraySeed(std::vector<Cell *> const &neighbords);
+	bool canSpraySeed();
+	bool spraySeed(std::vector<Cell *> const &neighbords);
 };
