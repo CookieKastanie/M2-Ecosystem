@@ -7,7 +7,8 @@ int main(int argc, char *argv[]) {
 	return Akila::Core::run(argc, argv, []() {
 		Akila::Time::fixedDelta = 0.3;
 		Akila::FileSystem::setResourceFolder("resources");
-		Akila::Core::display->setTitle("Ecosystem woula nardine");
+		Akila::Core::display->setTitle(u8"Ecosystem - Jérémy André");
+		Akila::Core::display->setSize(1280, 720);
 		Akila::Core::layerManager->add(new AppLayer{});
 	});
 }

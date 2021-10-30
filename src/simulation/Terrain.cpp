@@ -106,6 +106,10 @@ void Terrain::setDefaultCreationProbs() {
 	probs.plant = 0.6;
 }
 
+Terrain::CreationProbabilities &Terrain::getCreationProbs() {
+	return probs;
+}
+
 void Terrain::setDefaultBunnyRules() {
 	bunnyRules.initialEnergyRange[0] = 10;
 	bunnyRules.initialEnergyRange[1] = 30;

@@ -132,17 +132,26 @@ void imGuiVegetalRules(Vegetal::Rules &rules, int id) {
 
 void AppLayer::drawImGui() {
 	ImGui::Begin("Settings");
-	ImGui::SliderFloat("Sim delta", &Time::fixedDelta, 0.01, 1.);
 
-	if(play) {
-		if(ImGui::Button("Pause")) play = false;
-	} else {
-		if(ImGui::Button("Play")) play = true;
+	if(ImGui::CollapsingHeader("Simulation")) {
+		ImGui::SliderFloat("Delta", &Time::fixedDelta, 0.01, 1.);
+
+		if(play) {
+			if(ImGui::Button("Pause")) play = false;
+		} else {
+			if(ImGui::Button("Play")) play = true;
+		}
 	}
-	
-	ImGui::SameLine();
 
-	if(ImGui::Button("Reset")) terrain.reset();
+	if(ImGui::CollapsingHeader("Terrain creation probabilities")) {
+		Terrain::CreationProbabilities &probs = terrain.getCreationProbs();
+		ImGui::SliderFloat("Bunny", &probs.bunny, 0, 1);
+		ImGui::SliderFloat("Fox", &probs.fox, 0, 1);
+		ImGui::SliderFloat("Plant", &probs.plant, 0, 1);
+		if(ImGui::Button("Default values")) terrain.setDefaultCreationProbs();
+		if(ImGui::Button("Reset terrain")) terrain.reset();
+	}
+
 	ImGui::End();
 
 	///////////////////////////////////////////////////////////////////////////
@@ -150,17 +159,17 @@ void AppLayer::drawImGui() {
 	ImGui::Begin("Rules");
 	if(ImGui::CollapsingHeader("Bunnies")) {
 		imGuiAnimalRules(terrain.getBunnyRules(), 0);
-		if(ImGui::Button("Reset###0")) terrain.setDefaultBunnyRules();
+		if(ImGui::Button("Default settings###0")) terrain.setDefaultBunnyRules();
 	}
 
 	if(ImGui::CollapsingHeader("Foxes")) {
 		imGuiAnimalRules(terrain.getFoxRules(), 1);
-		if(ImGui::Button("Reset###1")) terrain.setDefaultFoxRules();
+		if(ImGui::Button("Default settings###1")) terrain.setDefaultFoxRules();
 	}
 
 	if(ImGui::CollapsingHeader("Plant")) {
 		imGuiVegetalRules(terrain.getPlantRules(), 2);
-		if(ImGui::Button("Reset###2")) terrain.setDefaultPlantRules();
+		if(ImGui::Button("Default settings###2")) terrain.setDefaultPlantRules();
 	}
 	ImGui::End();
 }

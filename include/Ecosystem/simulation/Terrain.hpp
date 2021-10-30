@@ -40,6 +40,7 @@ public:
 	int getSize();
 
 	void setDefaultCreationProbs();
+	CreationProbabilities &getCreationProbs();
 
 	void setDefaultBunnyRules();
 	void setDefaultFoxRules();
