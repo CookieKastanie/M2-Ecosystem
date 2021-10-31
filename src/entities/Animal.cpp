@@ -25,12 +25,16 @@ Animal::Sex Animal::getSex() {
 }
 
 void Animal::update(Cell *currentCell, std::vector<Cell *> const &neighbords) {
+	graphicTransform.savePrevious();
+
 	onUpdate(currentCell, neighbords);
 
 	--ttl;
 	--reproductionCD;
 	--energy;
 	if(energy <= 0 || ttl <= 0) die();
+
+	graphicTransform.setPosition(currentCell->x, 0, currentCell->y);
 }
 
 bool Animal::move(Cell *currentCell, Cell *targetCell) {
@@ -39,8 +43,6 @@ bool Animal::move(Cell *currentCell, Cell *targetCell) {
 	if(!targetCell->haveAnimal()) {
 		currentCell->removeAnimal();
 		targetCell->animal = this;
-
-		graphicTransform.setPosition(currentCell->x, 0, currentCell->y);
 
 		return true;
 	}

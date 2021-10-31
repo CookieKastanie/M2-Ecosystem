@@ -80,7 +80,6 @@ void Terrain::update() {
 					cell.deleteAnimal();
 				} else {
 					cell.animal->setState(state);
-					cell.animal->getGraphicTransform().savePrevious();
 					cell.animal->update(&cell, neighbords);
 				}
 			}
@@ -90,7 +89,6 @@ void Terrain::update() {
 					cell.deleteVegetal();
 				} else {
 					cell.vegetal->setState(state);
-					cell.vegetal->getGraphicTransform().savePrevious();
 					cell.vegetal->update(&cell, neighbords);
 				}
 			}
