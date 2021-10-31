@@ -13,15 +13,26 @@ Terrain::Terrain(unsigned int size): size{size}, neighbords{4}, state{0} {
 }
 
 void Terrain::reset() {
+	reset(size);
+}
+
+void Terrain::reset(int newSize) {
+	size = newSize;
+
 	state = 0;
+
+	for(Cell &cell : cells) {
+		cell.deleteAnimal();
+		cell.deleteVegetal();
+	}
 
 	cells.resize((std::size_t)size * size);
 
 	for(int y = 0; y < size; ++y) {
 		for(int x = 0; x < size; ++x) {
-			Cell &cell = cells[(std::size_t)y * size + x];
-			cell.deleteAnimal();
-			cell.deleteVegetal();
+			Cell &cell = at(x, y);
+			cell.x = x;
+			cell.y = y;
 
 			bool bunnySpawn = Random::greaterThan(1. - probs.bunny);
 			bool foxSpawn = Random::greaterThan(1. - probs.fox);
@@ -33,11 +44,17 @@ void Terrain::reset() {
 			}
 
 			if(bunnySpawn) cell.animal = new Bunny{&bunnyRules};
-
 			if(foxSpawn) cell.animal = new Fox{&foxRules};
+			
+			if(cell.haveAnimal()) {
+				cell.animal->getGraphicTransform().setPosition(x, 0, y);
+				cell.animal->getGraphicTransform().savePrevious();
+			}
 
 			if(Random::greaterThan(1. - probs.plant)) {
 				cell.vegetal = new Vegetal{&plantRules};
+				cell.vegetal->getGraphicTransform().setPosition(x, 0, y);
+				cell.vegetal->getGraphicTransform().savePrevious();
 			}
 		}
 	}
@@ -63,6 +80,7 @@ void Terrain::update() {
 					cell.deleteAnimal();
 				} else {
 					cell.animal->setState(state);
+					cell.animal->getGraphicTransform().savePrevious();
 					cell.animal->update(&cell, neighbords);
 				}
 			}
@@ -72,6 +90,7 @@ void Terrain::update() {
 					cell.deleteVegetal();
 				} else {
 					cell.vegetal->setState(state);
+					cell.vegetal->getGraphicTransform().savePrevious();
 					cell.vegetal->update(&cell, neighbords);
 				}
 			}
@@ -111,20 +130,20 @@ Terrain::CreationProbabilities &Terrain::getCreationProbs() {
 }
 
 void Terrain::setDefaultBunnyRules() {
-	bunnyRules.initialEnergyRange[0] = 10;
-	bunnyRules.initialEnergyRange[1] = 30;
+	bunnyRules.initialEnergyRange[0] = 45;
+	bunnyRules.initialEnergyRange[1] = 50;
 
 	bunnyRules.initialTTLRange[0] = 100;
-	bunnyRules.initialTTLRange[1] = 200;
+	bunnyRules.initialTTLRange[1] = 150;
 
-	bunnyRules.marginReproductionEnergy = 15;
+	bunnyRules.marginReproductionEnergy = 20;
 	bunnyRules.maxEnergy = 50;
-	bunnyRules.movingEnergyCost = 0;
-	bunnyRules.reproduicngEnergyCost = 20;
-	bunnyRules.eatingEnergyGain = 20;
+	bunnyRules.movingEnergyCost = 1;
+	bunnyRules.reproduicngEnergyCost = 30;
+	bunnyRules.eatingEnergyGain = 40;
 
-	bunnyRules.reproductionCDRange[0] = 20;
-	bunnyRules.reproductionCDRange[1] = 40;
+	bunnyRules.reproductionCDRange[0] = 30;
+	bunnyRules.reproductionCDRange[1] = 50;
 }
 
 void Terrain::setDefaultFoxRules() {
@@ -135,10 +154,10 @@ void Terrain::setDefaultFoxRules() {
 	foxRules.initialTTLRange[1] = 400;
 
 	foxRules.marginReproductionEnergy = 30;
-	foxRules.maxEnergy = 100;
-	foxRules.movingEnergyCost = 1;
-	foxRules.reproduicngEnergyCost = 50;
-	foxRules.eatingEnergyGain = 35;
+	foxRules.maxEnergy = 150;
+	foxRules.movingEnergyCost = 0;
+	foxRules.reproduicngEnergyCost = 40;
+	foxRules.eatingEnergyGain = 20;
 
 	foxRules.reproductionCDRange[0] = 100;
 	foxRules.reproductionCDRange[1] = 150;

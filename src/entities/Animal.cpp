@@ -1,8 +1,12 @@
 #include <Ecosystem/entities/Animal.hpp>
 #include "Ecosystem/utils/Random.hpp"
 #include "Ecosystem/entities/Vegetal.hpp"
+#include "Ecosystem/utils/Random.hpp"
 
 Animal::Animal(Species specie, Rules *rules): specie{ specie }, rules{ rules } {
+	if(Random::greaterThan(.5)) sex = Sex::MALE;
+	else sex = Sex::FEMALE;
+
 	ttl = Random::rangeInt(rules->initialTTLRange);
 	energy = Random::rangeInt(rules->initialEnergyRange);
 	reproductionCD = Random::rangeInt(rules->reproductionCDRange);
@@ -14,6 +18,10 @@ Animal::~Animal() {
 
 Animal::Species Animal::getSpecie() {
 	return specie;
+}
+
+Animal::Sex Animal::getSex() {
+	return sex;
 }
 
 void Animal::update(Cell *currentCell, std::vector<Cell *> const &neighbords) {
@@ -31,6 +39,8 @@ bool Animal::move(Cell *currentCell, Cell *targetCell) {
 	if(!targetCell->haveAnimal()) {
 		currentCell->removeAnimal();
 		targetCell->animal = this;
+
+		graphicTransform.setPosition(currentCell->x, 0, currentCell->y);
 
 		return true;
 	}
@@ -53,6 +63,7 @@ bool Animal::canReproduceWith(Cell *cell) {
 
 	Animal *other = cell->animal;
 	if(specie != other->getSpecie()) return false;
+	if(sex == other->getSex()) return false;
 	if(!canReproduce() || !canReproduce()) return false;
 
 	return true;
@@ -66,9 +77,26 @@ Cell *Animal::searchMate(std::vector<Cell *> const &neighbords) {
 	return nullptr;
 }
 
-void Animal::reproducing() {
-	energy -= rules->reproduicngEnergyCost;
-	reproductionCD = Random::rangeInt(rules->reproductionCDRange);
+bool Animal::reproduceWithRandom(std::vector<Cell *> const &neighbords) {
+	Cell *mateCell = searchMate(neighbords);
+	Cell *emptyCell = searchEmptyAnimalCell(neighbords);
+
+	if(mateCell != nullptr && emptyCell != nullptr) {
+		emptyCell->animal = instanciateOther();
+		emptyCell->animal->getGraphicTransform().setPosition(emptyCell->x, 0, emptyCell->y);
+		emptyCell->animal->getGraphicTransform().savePrevious();
+
+		energy -= rules->reproduicngEnergyCost;
+		reproductionCD = Random::rangeInt(rules->reproductionCDRange);
+
+		Animal *mate = mateCell->animal;
+		mate->energy -= mate->rules->reproduicngEnergyCost;
+		mate->reproductionCD = Random::rangeInt(mate->rules->reproductionCDRange);
+
+		return true;
+	}
+
+	return false;
 }
 
 std::ostream &operator<<(std::ostream &os, Animal const &a) {

@@ -32,6 +32,7 @@ private:
 public:
 	Terrain(unsigned int size);
 
+	void reset(int newSize);
 	void reset();
 
 	void update();

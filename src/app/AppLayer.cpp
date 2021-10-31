@@ -3,7 +3,7 @@
 
 using namespace Akila;
 
-AppLayer::AppLayer(): terrain{30}, play{true} {
+AppLayer::AppLayer(): uiTerrainSize{20}, terrain {uiTerrainSize}, play{true} {
 	Core::resourcePool->loadResourceFile("main.res", []() -> void {
 
 	});
@@ -46,16 +46,14 @@ void AppLayer::draw() {
 	auto plantMesh = Core::resourcePool->getMesh("plant");
 	auto groundMesh = Core::resourcePool->getMesh("ground");
 
-	Transform transform;
-	terrain.foreach([&transform, &shader,
+	if(!play) Time::mix = 1.;
+	terrain.foreach([&shader,
 					&bunnyMat, &bunnyMesh,
 					&foxMat, &foxMesh,
 					&plantMat, &plantMesh, &groundMesh](Cell *cell, int x, int y) {
 
-		transform.setPosition((float)x, 0, (float)y);
-		shader->send("M", transform.toMatrix());
-
 		if(cell->haveAnimal()) {
+			shader->send("M", cell->animal->getGraphicTransform().toMatrixMix(Time::mix));
 			switch(cell->animal->getSpecie()) {
 				case Animal::Species::BUNNY:
 					Core::renderer->render(bunnyMat.get(), bunnyMesh.get());
@@ -67,9 +65,14 @@ void AppLayer::draw() {
 		}
 
 		if(cell->haveVegetal()) {
+			shader->send("M", cell->vegetal->getGraphicTransform().toMatrixMix(Time::mix));
 			Core::renderer->render(plantMat.get(), plantMesh.get());
 		}
 
+		// ground
+		Transform transform;
+		transform.setPosition(x, 0, y);
+		shader->send("M", transform.toMatrix());
 		Core::renderer->render(plantMat.get(), groundMesh.get());
 	});
 }
@@ -143,13 +146,19 @@ void AppLayer::drawImGui() {
 		}
 	}
 
-	if(ImGui::CollapsingHeader("Terrain creation probabilities")) {
+	if(ImGui::CollapsingHeader("Terrain creation")) {
 		Terrain::CreationProbabilities &probs = terrain.getCreationProbs();
-		ImGui::SliderFloat("Bunny", &probs.bunny, 0, 1);
-		ImGui::SliderFloat("Fox", &probs.fox, 0, 1);
-		ImGui::SliderFloat("Plant", &probs.plant, 0, 1);
+		ImGui::SliderFloat("Bunny probability", &probs.bunny, 0, 1);
+		ImGui::SliderFloat("Fox probability", &probs.fox, 0, 1);
+		ImGui::SliderFloat("Plant probability", &probs.plant, 0, 1);
 		if(ImGui::Button("Default values")) terrain.setDefaultCreationProbs();
-		if(ImGui::Button("Reset terrain")) terrain.reset();
+
+		ImGui::Spacing();
+		ImGui::Separator();
+		ImGui::Spacing();
+
+		ImGui::SliderInt("Terrain size", &uiTerrainSize, 5, 50);
+		if(ImGui::Button("Reset terrain")) terrain.reset(uiTerrainSize);
 	}
 
 	ImGui::End();

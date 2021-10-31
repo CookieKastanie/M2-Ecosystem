@@ -24,6 +24,10 @@ void Entity::die() {
 	dead = true;
 }
 
+Akila::Transform &Entity::getGraphicTransform() {
+	return graphicTransform;
+}
+
 Cell *Entity::searchEmptyAnimalCell(std::vector<Cell *> const &neighbords) {
 	for(Cell *cell : neighbords) {
 		if(!cell->haveAnimal()) return cell;

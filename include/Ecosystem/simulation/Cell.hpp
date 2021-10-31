@@ -9,6 +9,9 @@ struct Cell {
 	Animal *animal;
 	Vegetal *vegetal;
 
+	int x;
+	int y;
+
 	Cell();
 	~Cell();
 

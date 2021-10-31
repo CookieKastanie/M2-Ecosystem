@@ -25,6 +25,8 @@ bool Vegetal::spraySeed(std::vector<Cell *> const &neighbords) {
 	for(Cell *cell : neighbords) {
 		if(!cell->haveVegetal()) {
 			cell->vegetal = new Vegetal{rules};
+			cell->vegetal->getGraphicTransform().setPosition(cell->x, 0, cell->y);
+			cell->vegetal->getGraphicTransform().savePrevious();
 			spraySeedCD = Random::rangeInt(rules->spraySeedCDRange);
 			return true;
 		}

@@ -10,5 +10,5 @@ protected:
 	void onUpdate(Cell *currentCell, std::vector<Cell *> const &neighbords) override;
 
 	bool eat(Cell *currentCell);
-	bool reproduce(std::vector<Cell *> const &neighbords);
+	Animal *instanciateOther() override;
 };

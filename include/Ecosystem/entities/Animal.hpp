@@ -12,6 +12,11 @@ public:
 		FOX,
 	};
 
+	enum class Sex {
+		MALE,
+		FEMALE
+	};
+
 	struct Rules {
 		int initialTTLRange[2];
 		int initialEnergyRange[2];
@@ -28,6 +33,7 @@ public:
 
 protected:
 	Species specie;
+	Sex sex;
 	Rules *rules;
 
 	int ttl; // time to live
@@ -40,6 +46,8 @@ public:
 	virtual ~Animal();
 
 	Species getSpecie();
+	Sex getSex();
+
 	void update(Cell *currentCell, std::vector<Cell*> const &neighbords) override;
 
 	friend std::ostream &operator<<(std::ostream &os, Animal const &a);
@@ -53,5 +61,6 @@ protected:
 	bool canReproduce();
 	bool canReproduceWith(Cell *cell);
 	Cell *searchMate(std::vector<Cell *> const &neighbords);
-	void reproducing();
+	virtual Animal *instanciateOther() = 0;
+	bool reproduceWithRandom(std::vector<Cell *> const &neighbords);
 };

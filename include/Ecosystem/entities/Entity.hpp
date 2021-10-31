@@ -2,6 +2,7 @@
 
 #include "Ecosystem/simulation/Cell.hpp"
 #include <vector>
+#include <Akila/entities/Transform.hpp>
 
 class Entity {
 private:
@@ -18,9 +19,13 @@ public:
 	virtual void update(Cell *currentCell, std::vector<Cell *> const &neighbords) = 0;
 
 	bool isDead();
-	void die();	
+	void die();
+
+	Akila::Transform &getGraphicTransform();
 
 protected:
+	Akila::Transform graphicTransform;
+
 	Cell *searchEmptyAnimalCell(std::vector<Cell *> const &neighbords);
 	Cell *searchEmptyVegetalCell(std::vector<Cell *> const &neighbords);
 };
