@@ -34,7 +34,7 @@ shader {
 	name: simple
 	src: shaders/simple.glsl
 
-	uniform: albedo = i[0]
+	uniform: colorSampler = i[0]
 }
 
 material {

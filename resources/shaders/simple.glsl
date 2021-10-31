@@ -17,11 +17,10 @@ in vec2 uv;
 in vec3 normal;
 out vec4 fragColor;
 
-uniform sampler2D albedo;
+uniform sampler2D colorSampler;
 
 void main() {
 	float l = dot(vec3(0, 1, 0), normalize(normal)) * 0.5 + 0.5;
-
-	vec3 color = texture(albedo, uv).rgb;
-	fragColor = vec4(color * l, 1.0);
+	fragColor.rgb = texture(colorSampler, uv).rgb * l;
+	fragColor.a = 1.0;
 }
