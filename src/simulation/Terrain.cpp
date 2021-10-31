@@ -118,8 +118,8 @@ int Terrain::getSize() {
 }
 
 void Terrain::setDefaultCreationProbs() {
-	probs.bunny = 0.2;
-	probs.fox = 0.01;
+	probs.bunny = 0.25;
+	probs.fox = 0.03;
 	probs.plant = 0.6;
 }
 
@@ -140,7 +140,7 @@ void Terrain::setDefaultBunnyRules() {
 	bunnyRules.reproduicngEnergyCost = 30;
 	bunnyRules.eatingEnergyGain = 40;
 
-	bunnyRules.reproductionCDRange[0] = 30;
+	bunnyRules.reproductionCDRange[0] = 40;
 	bunnyRules.reproductionCDRange[1] = 50;
 }
 
@@ -148,14 +148,14 @@ void Terrain::setDefaultFoxRules() {
 	foxRules.initialEnergyRange[0] = 40;
 	foxRules.initialEnergyRange[1] = 60;
 
-	foxRules.initialTTLRange[0] = 300;
-	foxRules.initialTTLRange[1] = 400;
+	foxRules.initialTTLRange[0] = 350;
+	foxRules.initialTTLRange[1] = 450;
 
 	foxRules.marginReproductionEnergy = 30;
 	foxRules.maxEnergy = 150;
 	foxRules.movingEnergyCost = 0;
 	foxRules.reproduicngEnergyCost = 40;
-	foxRules.eatingEnergyGain = 20;
+	foxRules.eatingEnergyGain = 30;
 
 	foxRules.reproductionCDRange[0] = 100;
 	foxRules.reproductionCDRange[1] = 150;

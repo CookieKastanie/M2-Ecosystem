@@ -4,23 +4,27 @@
 using namespace Akila;
 
 AppLayer::AppLayer(): uiTerrainSize{20}, terrain {uiTerrainSize}, play{true} {
-	Core::resourcePool->loadResourceFile("main.res", []() -> void {
-
-	});
+	Core::resourcePool->loadResourceFile("main.res"); // async loading
 
 	camera = std::make_shared<MouseCamera>(Core::display->getMouse());
 	Core::renderer->setSharedCamera(camera);
 	Core::renderer->setClearColor(0.5, 0.6, 1.0);
 	Core::renderer->disable(Renderer::Capability::CULL_FACE);
 
-	float s = (float)terrain.getSize() / 2. - 0.5;
-	camera->setCenter({s, 0, s});
+	setCamaraToMapCenter();
 
 	Core::display->getKeybord()->onKeyPress([this](Keyboard::Key key) {
 		if(key == Keyboard::Key::SPACE) {
 			terrain.reset();
 		}
 	});
+
+	Time::fixedDelta = 0.2;
+}
+
+void AppLayer::setCamaraToMapCenter() {
+	float s = (float)terrain.getSize() / 2. - 0.5;
+	camera->setCenter({s, 0, s});
 }
 
 void AppLayer::update() {
@@ -134,6 +138,9 @@ void imGuiVegetalRules(Vegetal::Rules &rules, int id) {
 }
 
 void AppLayer::drawImGui() {
+	/////////////////
+	/// Settings window
+	/////////////////
 	ImGui::Begin("Settings");
 
 	if(ImGui::CollapsingHeader("Simulation")) {
@@ -145,6 +152,8 @@ void AppLayer::drawImGui() {
 			if(ImGui::Button("Play")) play = true;
 		}
 	}
+
+	/////////////////
 
 	if(ImGui::CollapsingHeader("Terrain creation")) {
 		Terrain::CreationProbabilities &probs = terrain.getCreationProbs();
@@ -158,13 +167,18 @@ void AppLayer::drawImGui() {
 		ImGui::Spacing();
 
 		ImGui::SliderInt("Terrain size", &uiTerrainSize, 5, 50);
-		if(ImGui::Button("Reset terrain")) terrain.reset(uiTerrainSize);
+		if(ImGui::Button("Reset terrain")) {
+			bool sizeChanged = terrain.getSize() != uiTerrainSize;
+			terrain.reset(uiTerrainSize);
+			if(sizeChanged) setCamaraToMapCenter();
+		}
 	}
 
 	ImGui::End();
 
-	///////////////////////////////////////////////////////////////////////////
-
+	/////////////////
+	/// Rules window
+	/////////////////
 	ImGui::Begin("Rules");
 	if(ImGui::CollapsingHeader("Bunnies")) {
 		imGuiAnimalRules(terrain.getBunnyRules(), 0);

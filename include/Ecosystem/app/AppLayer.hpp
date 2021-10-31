@@ -18,6 +18,7 @@ private:
 
 public:
 	AppLayer();
+	void setCamaraToMapCenter();
 	void update() override;
 	void draw() override;
 	void drawImGui() override;
