@@ -74,6 +74,8 @@ void AppLayer::draw() {
 	};
 }
 
+//////////////////////////////////////////////////////////////////
+
 void imGuiAnimalRules(Animal::Rules &rules, int id) {
 	ImGui::PushID(id);
 
