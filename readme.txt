@@ -9,6 +9,7 @@ Caméra :
 
 Barre espace pour reset rapidement de terrain.
 
+-------------
 
 Infos :
 Le sous dossier "Akila" est en fait un projet perso (pas fini). Il est composé des libs suivantes : glfw, glad, glm, stbimage, et imgui.
