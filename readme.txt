@@ -13,4 +13,4 @@ Barre espace pour reset rapidement de terrain.
 
 Infos :
 Le sous dossier "Akila" est en fait un projet perso (pas fini). Il est composé des libs suivantes : glfw, glad, glm, stbimage, et imgui.
-Son utilité principale est de facilement charger des textures/meshs/shaders (ici définis dans resources/main.res) et d'utiliser opengl.
+Je me suis permis de le réutiliser car il permet de facilement charger des textures/meshs/shaders (ici définis dans resources/main.res) et d'utiliser opengl.
