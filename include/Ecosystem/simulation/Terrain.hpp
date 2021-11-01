@@ -4,8 +4,6 @@
 #include <Ecosystem/entities/Animal.hpp>
 #include <Ecosystem/entities/Vegetal.hpp>
 
-#include <functional>	
-
 class Terrain {
 public:
 	struct CreationProbabilities {
@@ -21,35 +19,30 @@ private:
 
 	char state;
 
-	CreationProbabilities probs;
+	CreationProbabilities *probs;
 
-	Animal::Rules bunnyRules;
-	Animal::Rules foxRules;
-	Vegetal::Rules plantRules;
+	Animal::Rules *bunnyRules;
+	Animal::Rules *foxRules;
+	Vegetal::Rules *plantRules;
 
 	Cell &Terrain::at(int x, int y);
 
 public:
-	Terrain(unsigned int size);
+	Terrain(unsigned int size,
+			CreationProbabilities *probs,
+			Animal::Rules *bunnyRules,
+			Animal::Rules *foxRules,
+			Vegetal::Rules *plantRules);
+	~Terrain();
 
 	void reset(int newSize);
 	void reset();
 
 	void update();
-	void print();
 
 	int getSize();
 
-	void setDefaultCreationProbs();
-	CreationProbabilities &getCreationProbs();
+	std::vector<Cell> &getCells();
 
-	void setDefaultBunnyRules();
-	void setDefaultFoxRules();
-	void setDefaultPlantRules();
-
-	Animal::Rules &getBunnyRules();
-	Animal::Rules &getFoxRules();
-	Vegetal::Rules &getPlantRules();
-
-	void foreach(std::function<void(Cell *, int, int)> cb);
+	friend std::ostream &operator<<(std::ostream &os, Terrain &terrain);
 };

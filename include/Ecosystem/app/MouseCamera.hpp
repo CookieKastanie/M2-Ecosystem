@@ -20,5 +20,6 @@ public:
 	MouseCamera(Akila::Mouse *mouse);
 
 	void setCenter(glm::vec3 const &vec);
+	glm::vec3 &getCenter();
 	void update() override;
 };

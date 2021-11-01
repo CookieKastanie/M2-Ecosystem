@@ -13,7 +13,7 @@ endif()
 
 add_executable(${PROJECT_NAME})
 target_sources(${PROJECT_NAME} PRIVATE ${APP_ICON} src/main.cpp
-"src/simulation/Terrain.cpp" "include/Ecosystem/entities/Vegetal.hpp" "src/entities/Animal.cpp" "src/entities/Vegetal.cpp" "src/utils/Random.cpp" "include/Ecosystem/entities/Entity.hpp" "src/entities/Entity.cpp" "include/Ecosystem/simulation/Cell.hpp" "src/simulation/Cell.cpp" "include/Ecosystem/app/MouseCamera.hpp" "src/app/MouseCamera.cpp" "include/Ecosystem/app/AppLayer.hpp" "src/app/AppLayer.cpp" "include/Ecosystem/entities/Bunny.hpp" "include/Ecosystem/entities/Fox.hpp" "src/entities/Bunny.cpp" "src/entities/Fox.cpp")
+"include/Ecosystem/simulation/Simulation.hpp" "src/simulation/Simulation.cpp" "src/simulation/Terrain.cpp" "include/Ecosystem/entities/Vegetal.hpp" "src/entities/Animal.cpp" "src/entities/Vegetal.cpp" "src/utils/Random.cpp" "include/Ecosystem/entities/Entity.hpp" "src/entities/Entity.cpp" "include/Ecosystem/simulation/Cell.hpp" "src/simulation/Cell.cpp" "include/Ecosystem/app/MouseCamera.hpp" "src/app/MouseCamera.cpp" "include/Ecosystem/app/AppLayer.hpp" "src/app/AppLayer.cpp" "include/Ecosystem/entities/Bunny.hpp" "include/Ecosystem/entities/Fox.hpp" "src/entities/Bunny.cpp" "src/entities/Fox.cpp")
 target_include_directories(${PROJECT_NAME} PRIVATE ${INC_DIR})
 
 if(WIN32)

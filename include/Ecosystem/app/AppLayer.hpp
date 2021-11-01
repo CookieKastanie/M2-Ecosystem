@@ -5,15 +5,14 @@
 
 #include <iostream>
 #include <Ecosystem/utils/Random.hpp>
-#include <Ecosystem/simulation/Terrain.hpp>
+#include <Ecosystem/simulation/Simulation.hpp>
 
 #include <Ecosystem/app/MouseCamera.hpp>
 
 class AppLayer: public Akila::Layer {
 private:
 	int uiTerrainSize;
-	Terrain terrain;
-	bool play;
+	Simulation simulation;
 	std::shared_ptr<MouseCamera> camera;
 
 public:

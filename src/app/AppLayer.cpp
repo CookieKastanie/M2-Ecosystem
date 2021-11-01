@@ -3,7 +3,7 @@
 
 using namespace Akila;
 
-AppLayer::AppLayer(): uiTerrainSize{20}, terrain {uiTerrainSize}, play{true} {
+AppLayer::AppLayer(): uiTerrainSize{20} {
 	Core::resourcePool->loadResourceFile("main.res"); // async loading
 
 	camera = std::make_shared<MouseCamera>(Core::display->getMouse());
@@ -15,7 +15,7 @@ AppLayer::AppLayer(): uiTerrainSize{20}, terrain {uiTerrainSize}, play{true} {
 
 	Core::display->getKeybord()->onKeyPress([this](Keyboard::Key key) {
 		if(key == Keyboard::Key::SPACE) {
-			terrain.reset();
+			simulation.getTerrain().reset();
 		}
 	});
 
@@ -23,15 +23,12 @@ AppLayer::AppLayer(): uiTerrainSize{20}, terrain {uiTerrainSize}, play{true} {
 }
 
 void AppLayer::setCamaraToMapCenter() {
-	float s = (float)terrain.getSize() / 2. - 0.5;
+	float s = (float)simulation.getTerrain().getSize() / 2. - 0.5;
 	camera->setCenter({s, 0, s});
 }
 
 void AppLayer::update() {
-	if(play) {
-		terrain.update();
-		//terrain.print();
-	}
+	simulation.update();
 }
 
 void AppLayer::draw() {
@@ -50,15 +47,11 @@ void AppLayer::draw() {
 	auto plantMesh = Core::resourcePool->getMesh("plant");
 	auto groundMesh = Core::resourcePool->getMesh("ground");
 
-	if(!play) Time::mix = 1.;
-	terrain.foreach([&shader,
-					&bunnyMat, &bunnyMesh,
-					&foxMat, &foxMesh,
-					&plantMat, &plantMesh, &groundMesh](Cell *cell, int x, int y) {
-
-		if(cell->haveAnimal()) {
-			shader->send("M", cell->animal->getGraphicTransform().toMatrixMix(Time::mix));
-			switch(cell->animal->getSpecie()) {
+	if(!simulation.isPlaying()) Time::mix = 1.;
+	for(Cell &cell : simulation.getTerrain().getCells()) {
+		if(cell.haveAnimal()) {
+			shader->send("M", cell.animal->getGraphicTransform().toMatrixMix(Time::mix));
+			switch(cell.animal->getSpecie()) {
 				case Animal::Species::BUNNY:
 					Core::renderer->render(bunnyMat.get(), bunnyMesh.get());
 					break;
@@ -68,17 +61,17 @@ void AppLayer::draw() {
 			}
 		}
 
-		if(cell->haveVegetal()) {
-			shader->send("M", cell->vegetal->getGraphicTransform().toMatrixMix(Time::mix));
+		if(cell.haveVegetal()) {
+			shader->send("M", cell.vegetal->getGraphicTransform().toMatrixMix(Time::mix));
 			Core::renderer->render(plantMat.get(), plantMesh.get());
 		}
 
 		// ground
 		Transform transform;
-		transform.setPosition(x, 0, y);
+		transform.setPosition(cell.x, 0, cell.y);
 		shader->send("M", transform.toMatrix());
 		Core::renderer->render(plantMat.get(), groundMesh.get());
-	});
+	};
 }
 
 void imGuiAnimalRules(Animal::Rules &rules, int id) {
@@ -146,21 +139,21 @@ void AppLayer::drawImGui() {
 	if(ImGui::CollapsingHeader("Simulation")) {
 		ImGui::SliderFloat("Delta", &Time::fixedDelta, 0.01, 1.);
 
-		if(play) {
-			if(ImGui::Button("Pause")) play = false;
+		if(simulation.isPlaying()) {
+			if(ImGui::Button("Pause")) simulation.pause();
 		} else {
-			if(ImGui::Button("Play")) play = true;
+			if(ImGui::Button("Play")) simulation.play();
 		}
 	}
 
 	/////////////////
 
 	if(ImGui::CollapsingHeader("Terrain creation")) {
-		Terrain::CreationProbabilities &probs = terrain.getCreationProbs();
+		Terrain::CreationProbabilities &probs = simulation.getCreationProbs();
 		ImGui::SliderFloat("Bunny probability", &probs.bunny, 0, 1);
 		ImGui::SliderFloat("Fox probability", &probs.fox, 0, 1);
 		ImGui::SliderFloat("Plant probability", &probs.plant, 0, 1);
-		if(ImGui::Button("Default values")) terrain.setDefaultCreationProbs();
+		if(ImGui::Button("Default values")) simulation.setDefaultCreationProbs();
 
 		ImGui::Spacing();
 		ImGui::Separator();
@@ -168,8 +161,8 @@ void AppLayer::drawImGui() {
 
 		ImGui::SliderInt("Terrain size", &uiTerrainSize, 5, 50);
 		if(ImGui::Button("Reset terrain")) {
-			bool sizeChanged = terrain.getSize() != uiTerrainSize;
-			terrain.reset(uiTerrainSize);
+			bool sizeChanged = simulation.getTerrain().getSize() != uiTerrainSize;
+			simulation.getTerrain().reset(uiTerrainSize);
 			if(sizeChanged) setCamaraToMapCenter();
 		}
 	}
@@ -181,18 +174,18 @@ void AppLayer::drawImGui() {
 	/////////////////
 	ImGui::Begin("Rules");
 	if(ImGui::CollapsingHeader("Bunnies")) {
-		imGuiAnimalRules(terrain.getBunnyRules(), 0);
-		if(ImGui::Button("Default settings###0")) terrain.setDefaultBunnyRules();
+		imGuiAnimalRules(simulation.getBunnyRules(), 0);
+		if(ImGui::Button("Default settings###0")) simulation.setDefaultBunnyRules();
 	}
 
 	if(ImGui::CollapsingHeader("Foxes")) {
-		imGuiAnimalRules(terrain.getFoxRules(), 1);
-		if(ImGui::Button("Default settings###1")) terrain.setDefaultFoxRules();
+		imGuiAnimalRules(simulation.getFoxRules(), 1);
+		if(ImGui::Button("Default settings###1")) simulation.setDefaultFoxRules();
 	}
 
 	if(ImGui::CollapsingHeader("Plant")) {
-		imGuiVegetalRules(terrain.getPlantRules(), 2);
-		if(ImGui::Button("Default settings###2")) terrain.setDefaultPlantRules();
+		imGuiVegetalRules(simulation.getPlantRules(), 2);
+		if(ImGui::Button("Default settings###2")) simulation.setDefaultPlantRules();
 	}
 	ImGui::End();
 }

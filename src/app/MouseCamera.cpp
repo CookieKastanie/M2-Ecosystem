@@ -4,7 +4,7 @@ MouseCamera::MouseCamera(Akila::Mouse *mouse):
 	mouse{mouse},
 	up{0., 0., 0.},
 	center{0., 0., 0.},
-	angles{.5, 0., 0.},
+	angles{.5, 1.57079632679, 0.},
 	movement{0., 0., 0.},
 	distance{20.} {
 
@@ -12,6 +12,10 @@ MouseCamera::MouseCamera(Akila::Mouse *mouse):
 
 void MouseCamera::setCenter(glm::vec3 const &vec) {
 	center = vec;
+}
+
+glm::vec3 &MouseCamera::getCenter() {
+	return center;
 }
 
 void MouseCamera::update() {
