@@ -16,7 +16,7 @@ public:
 	char getState();
 	void setState(char s);
 
-	virtual void update(Cell *currentCell, std::vector<Cell *> const &neighbords) = 0;
+	virtual void update(Cell *currentCell, std::vector<Cell *> const &neighbors) = 0;
 
 	bool isDead();
 	void die();
@@ -26,6 +26,6 @@ public:
 protected:
 	Akila::Transform graphicTransform;
 
-	Cell *searchEmptyAnimalCell(std::vector<Cell *> const &neighbords);
-	Cell *searchEmptyVegetalCell(std::vector<Cell *> const &neighbords);
+	Cell *searchEmptyAnimalCell(std::vector<Cell *> const &neighbors);
+	Cell *searchEmptyVegetalCell(std::vector<Cell *> const &neighbors);
 };

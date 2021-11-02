@@ -6,9 +6,9 @@ Vegetal::Vegetal(Vegetal::Rules *rules): rules{rules} {
 	spraySeedCD = Random::rangeInt(rules->spraySeedCDRange);
 }
 
-void Vegetal::update(Cell *currentCell, std::vector<Cell *> const &neighbords) {
+void Vegetal::update(Cell *currentCell, std::vector<Cell *> const &neighbors) {
 	--spraySeedCD;
-	spraySeed(neighbords);
+	spraySeed(neighbors);
 	if(spraySeedCD < 0) spraySeedCD = Random::rangeInt(rules->spraySeedCDRange);
 
 	--ttl;
@@ -19,10 +19,10 @@ bool Vegetal::canSpraySeed() {
 	return spraySeedCD <= 0;
 }
 
-bool Vegetal::spraySeed(std::vector<Cell *> const &neighbords) {
+bool Vegetal::spraySeed(std::vector<Cell *> const &neighbors) {
 	if(!canSpraySeed()) return false;
 
-	for(Cell *cell : neighbords) {
+	for(Cell *cell : neighbors) {
 		if(!cell->haveVegetal()) {
 			cell->vegetal = new Vegetal{rules};
 			cell->vegetal->getGraphicTransform().setPosition(cell->x, 0, cell->y);

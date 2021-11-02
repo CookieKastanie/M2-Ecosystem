@@ -5,12 +5,12 @@ Bunny::Bunny(Rules *rules): Animal{Species::BUNNY, rules} {
 	
 }
 
-void Bunny::onUpdate(Cell *currentCell, std::vector<Cell *> const &neighbords) {
+void Bunny::onUpdate(Cell *currentCell, std::vector<Cell *> const &neighbors) {
 	int done = true;
 
 	done = eat(currentCell);
-	if(!done) done = reproduceWithRandom(neighbords);
-	if(!done) done = randomMove(currentCell, neighbords);
+	if(!done) done = reproduceWithRandom(neighbors);
+	if(!done) done = randomMove(currentCell, neighbors);
 }
 
 bool Bunny::eat(Cell *currentCell) {

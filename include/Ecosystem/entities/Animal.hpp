@@ -48,19 +48,19 @@ public:
 	Species getSpecie();
 	Sex getSex();
 
-	void update(Cell *currentCell, std::vector<Cell*> const &neighbords) override;
+	void update(Cell *currentCell, std::vector<Cell*> const &neighbos) override;
 
 	friend std::ostream &operator<<(std::ostream &os, Animal const &a);
 
 protected:
-	virtual void onUpdate(Cell *currentCell, std::vector<Cell *> const &neighbords) = 0;
+	virtual void onUpdate(Cell *currentCell, std::vector<Cell *> const &neighbos) = 0;
 
 	bool move(Cell *currentCell, Cell *targetCell);
-	bool randomMove(Cell *currentCell, std::vector<Cell *> const &neighbords);
+	bool randomMove(Cell *currentCell, std::vector<Cell *> const &neighbos);
 
 	bool canReproduce();
 	bool canReproduceWith(Cell *cell);
-	Cell *searchMate(std::vector<Cell *> const &neighbords);
+	Cell *searchMate(std::vector<Cell *> const &neighbos);
 	virtual Animal *instanciateOther() = 0;
-	bool reproduceWithRandom(std::vector<Cell *> const &neighbords);
+	bool reproduceWithRandom(std::vector<Cell *> const &neighbos);
 };

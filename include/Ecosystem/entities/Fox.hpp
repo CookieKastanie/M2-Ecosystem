@@ -7,8 +7,8 @@ public:
 	Fox(Rules *rules);
 
 protected:
-	void onUpdate(Cell *currentCell, std::vector<Cell *> const &neighbords) override;
+	void onUpdate(Cell *currentCell, std::vector<Cell *> const &neighbors) override;
 
-	bool eat(std::vector<Cell *> const &neighbords);
+	bool eat(std::vector<Cell *> const &neighbors);
 	Animal *instanciateOther() override;
 };

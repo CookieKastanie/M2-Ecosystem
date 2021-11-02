@@ -15,7 +15,7 @@ public:
 private:
 	std::size_t size;
 	std::vector<Cell> cells;
-	std::vector<Cell*> neighbords;
+	std::vector<Cell*> neighbors;
 
 	char state;
 

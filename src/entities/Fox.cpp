@@ -4,20 +4,20 @@ Fox::Fox(Rules *rules): Animal{Species::FOX, rules} {
 
 }
 
-void Fox::onUpdate(Cell *currentCell, std::vector<Cell *> const &neighbords) {
+void Fox::onUpdate(Cell *currentCell, std::vector<Cell *> const &neighbors) {
 	int done = true;
 
-	done = eat(neighbords);
-	if(!done) done = reproduceWithRandom(neighbords);
-	if(!done) done = randomMove(currentCell, neighbords);
+	done = eat(neighbors);
+	if(!done) done = reproduceWithRandom(neighbors);
+	if(!done) done = randomMove(currentCell, neighbors);
 }
 
-bool Fox::eat(std::vector<Cell *> const &neighbords) {
+bool Fox::eat(std::vector<Cell *> const &neighbors) {
 	if(energy >= rules->maxEnergy) return false;
 
 	Animal *food = nullptr;
 
-	for(Cell *cell : neighbords) {
+	for(Cell *cell : neighbors) {
 		if(cell->haveAnimal()) {
 			if(cell->animal->getSpecie() == Species::BUNNY) {
 				food = cell->animal;

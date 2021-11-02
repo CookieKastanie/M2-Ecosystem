@@ -20,10 +20,10 @@ private:
 
 public:
 	Vegetal(Rules *rules);
-	void update(Cell *currentCell, std::vector<Cell *> const &neighbords);
+	void update(Cell *currentCell, std::vector<Cell *> const &neighbors);
 	friend std::ostream &operator<<(std::ostream &os, Vegetal const &v);
 
 private:
 	bool canSpraySeed();
-	bool spraySeed(std::vector<Cell *> const &neighbords);
+	bool spraySeed(std::vector<Cell *> const &neighbors);
 };

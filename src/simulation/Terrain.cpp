@@ -9,7 +9,7 @@ Terrain::Terrain(unsigned int size,
 				 Animal::Rules *bunnyRules,
 				 Animal::Rules *foxRules,
 				 Vegetal::Rules *plantRules)
-	: size{size}, neighbords{4}, state{0},
+	: size{size}, neighbors{4}, state{0},
 	probs{probs}, bunnyRules{bunnyRules}, foxRules{foxRules}, plantRules{plantRules} {
 
 }
@@ -78,18 +78,18 @@ void Terrain::update() {
 		int x = cell.x;
 		int y = cell.y;
 			
-		neighbords.clear();
-		if(x > 0)        neighbords.push_back(&at(x - 1, y));
-		if(x < size - 1) neighbords.push_back(&at(x + 1, y));
-		if(y > 0)        neighbords.push_back(&at(x, y - 1));
-		if(y < size - 1) neighbords.push_back(&at(x, y + 1));
+		neighbors.clear();
+		if(x > 0)        neighbors.push_back(&at(x - 1, y));
+		if(x < size - 1) neighbors.push_back(&at(x + 1, y));
+		if(y > 0)        neighbors.push_back(&at(x, y - 1));
+		if(y < size - 1) neighbors.push_back(&at(x, y + 1));
 
 		if(cell.haveAnimal() && cell.animal->getState() != state) {
 			if(cell.animal->isDead()) {
 				cell.deleteAnimal();
 			} else {
 				cell.animal->setState(state);
-				cell.animal->update(&cell, neighbords);
+				cell.animal->update(&cell, neighbors);
 			}
 		}
 
@@ -98,7 +98,7 @@ void Terrain::update() {
 				cell.deleteVegetal();
 			} else {
 				cell.vegetal->setState(state);
-				cell.vegetal->update(&cell, neighbords);
+				cell.vegetal->update(&cell, neighbors);
 			}
 		}
 	}

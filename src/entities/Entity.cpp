@@ -28,16 +28,16 @@ Akila::Transform &Entity::getGraphicTransform() {
 	return graphicTransform;
 }
 
-Cell *Entity::searchEmptyAnimalCell(std::vector<Cell *> const &neighbords) {
-	for(Cell *cell : neighbords) {
+Cell *Entity::searchEmptyAnimalCell(std::vector<Cell *> const &neighbors) {
+	for(Cell *cell : neighbors) {
 		if(!cell->haveAnimal()) return cell;
 	}
 
 	return nullptr;
 }
 
-Cell *Entity::searchEmptyVegetalCell(std::vector<Cell *> const &neighbords) {
-	for(Cell *cell : neighbords) {
+Cell *Entity::searchEmptyVegetalCell(std::vector<Cell *> const &neighbors) {
+	for(Cell *cell : neighbors) {
 		if(!cell->haveVegetal()) return cell;
 	}
 

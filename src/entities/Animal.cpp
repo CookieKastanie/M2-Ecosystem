@@ -24,10 +24,10 @@ Animal::Sex Animal::getSex() {
 	return sex;
 }
 
-void Animal::update(Cell *currentCell, std::vector<Cell *> const &neighbords) {
+void Animal::update(Cell *currentCell, std::vector<Cell *> const &neighbors) {
 	graphicTransform.savePrevious();
 
-	onUpdate(currentCell, neighbords);
+	onUpdate(currentCell, neighbors);
 
 	--ttl;
 	--reproductionCD;
@@ -50,9 +50,9 @@ bool Animal::move(Cell *currentCell, Cell *targetCell) {
 	return false;
 }
 
-bool Animal::randomMove(Cell *currentCell, std::vector<Cell *> const &neighbords) {
-	int index = Random::rangeInt(0, neighbords.size() - 1);
-	return move(currentCell, neighbords[index]);
+bool Animal::randomMove(Cell *currentCell, std::vector<Cell *> const &neighbors) {
+	int index = Random::rangeInt(0, neighbors.size() - 1);
+	return move(currentCell, neighbors[index]);
 }
 
 bool Animal::canReproduce() {
@@ -71,17 +71,17 @@ bool Animal::canReproduceWith(Cell *cell) {
 	return true;
 }
 
-Cell *Animal::searchMate(std::vector<Cell *> const &neighbords) {
-	for(Cell *cell : neighbords) {
+Cell *Animal::searchMate(std::vector<Cell *> const &neighbors) {
+	for(Cell *cell : neighbors) {
 		if(canReproduceWith(cell)) return cell;
 	}
 
 	return nullptr;
 }
 
-bool Animal::reproduceWithRandom(std::vector<Cell *> const &neighbords) {
-	Cell *mateCell = searchMate(neighbords);
-	Cell *emptyCell = searchEmptyAnimalCell(neighbords);
+bool Animal::reproduceWithRandom(std::vector<Cell *> const &neighbors) {
+	Cell *mateCell = searchMate(neighbors);
+	Cell *emptyCell = searchEmptyAnimalCell(neighbors);
 
 	if(mateCell != nullptr && emptyCell != nullptr) {
 		emptyCell->animal = instanciateOther();
