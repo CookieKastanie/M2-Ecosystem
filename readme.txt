@@ -1,7 +1,7 @@
-M2 - Jérémy André
+M2 - JÃ©rÃ©my AndrÃ©
 
-Contrôles :
-Caméra : 
+ContrÃ´les :
+CamÃ©ra :
 	- Click gauche pour la rotation
 	- Click droit pour la translation sur le plan XZ
 	- Click molette pour la translation Z
@@ -12,5 +12,5 @@ Barre espace pour reset rapidement de terrain.
 -------------
 
 Infos :
-Le sous dossier "Akila" est en fait un projet perso (pas fini). Il est composé des libs suivantes : glfw, glad, glm, stbimage, et imgui.
-Je me suis permis de le réutiliser car il permet de facilement charger des textures/meshs/shaders (ici définis dans resources/main.res) et d'utiliser opengl.
+Le sous dossier "Akila" est en fait un projet perso (pas fini). Il est composÃ© des libs suivantes : glfw, glad, glm, stbimage, et imgui.
+Je me suis permis de le rÃ©utiliser car il permet de facilement charger des textures/meshs/shaders (ici dÃ©finis dans resources/main.res) et d'utiliser opengl.
